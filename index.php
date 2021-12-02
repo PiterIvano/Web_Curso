@@ -1,7 +1,20 @@
-<?php session_start();?>
+<?php session_start();
+#verifica si el usuario esta logueado
+if(isset($_SESSION['usuario'])){
+    header('Location: views');
+}else{
+    
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <link href="https://curso.pitersk.com/logo.jpg" rel="icon" type="image/ico" />    
+    <meta property="og:image" content="https://curso.pitersk.com/logo.jpg">
+    <meta property="og:url" content="https://curso.pitersk.com/">
+    <meta property="og:title" content="Piter Ivano - Cursos">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Piter Ivano">
+    <link href="https://curso.pitersk.com/logo.jpg" rel="shortcut icon" sizes="196x196">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -9,7 +22,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!--script de capcha-->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+    <!--Codigo css-->
+    <style>
+            .salto {
+                display: block;
+                margin-top: 10px;
+                
+            }
+            *{
+                font-size: 0.9rem;
+                align-items: center;
+            }
+            label {
+                display: block;
+                margin-top: 10px;
+            }
+            /*espaciado para el elemento .lef*/
+            .lef {
+                margin-left: 100px;
+            }
+        </style>
 </head>
 <body>
     
@@ -31,11 +63,13 @@
                                 <input type="password" name="password" id="password" class="form-control">
                             </div>
                             <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="6LcdPG4dAAAAABLkbXemyJwQmM3Rt-QGJnnDvXUd">
-                                </div>
+                                <span class="salto"></span>
+                                <div class="g-recaptcha" data-sitekey="6LcdPG4dAAAAABLkbXemyJwQmM3Rt-QGJnnDvXUd"></div>
+                                <span class="salto"></span>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Iniciar sesión" name="submit" class="btn btn-primary">
+                                <a href="registro" class="btn btn-success lef">Registrarse</a>
                             </div>
                         </form>
                     </div>
@@ -52,7 +86,7 @@ if (isset($_POST['submit'])) {
         #verificar recapcha
         $ip = $_SERVER['REMOTE_ADDR'];
         $capcha = $_POST['g-recaptcha-response'];
-        $secret_key = "clave secreta aqui";
+        $secret_key = "SECRET_KEY";
 
         $respuesta = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=$capcha&remoteip=$ip");
         $array = json_decode($respuesta, true);
@@ -88,7 +122,7 @@ if (isset($_POST['submit'])) {
                                 ?>
                                 <script>
                                     /*redireccionar a otra pagina*/
-                                    window.location.href = 'videos.php';
+                                    window.location.href = 'views';
                                 </script>
                                 <?php
                             }else{
@@ -105,3 +139,5 @@ if (isset($_POST['submit'])) {
         
     }
 }
+}
+?>
